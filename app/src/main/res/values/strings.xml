@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Lab 1</string>
+    <string name="start">Start</string>
+    <string name="reset">Reset</string>
+    <string name="time">Time: </string>
+    <string name="timeRemain">Time remaining: </string>
+    <string name="timeElapsed">Time elapsed: </string>
+    <string name="timeOver">Time\'s up!</string>
 </resources>
