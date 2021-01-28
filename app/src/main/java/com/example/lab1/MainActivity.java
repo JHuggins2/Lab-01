@@ -4,13 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private CountDownTimer countDownTimer;
+    private MyCountDownTimer countDownTimer;
     private long timeElapsed;
     private boolean timerHasStarted = false;
     private Button startB;
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startB.setOnClickListener(this);
         text = (TextView) this.findViewById(R.id.timer);
         timeElapsedView = (TextView) this.findViewById(R.id.timeElapsed);
-        countDownTimer = new CountDownTimer(startTime, interval);
+        countDownTimer = new MyCountDownTimer(startTime, interval);
+        text.setText(text.getText() + String.valueOf(startTime));
     }
 
     /**
@@ -51,36 +53,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public class CountDownTimer {
-        long millisUntilFinished;
-        long countDownInterval;
-        public CountDownTimer(long millisInFuture, long countDownInterval) {
-            this.millisUntilFinished = millisInFuture;
-            this.countDownInterval = countDownInterval;
+    public class MyCountDownTimer extends CountDownTimer {
+        /**
+         * @param millisInFuture    The number of millis in the future from the call
+         *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *                          is called.
+         * @param countDownInterval The interval along the way to receive
+         *                          {@link #onTick(long)} callbacks.
+         */
+        public MyCountDownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
         }
 
-        private void start(){
-            if(millisUntilFinished <= 0){
-                onFinish();
-            }
-            else{
-
-            }
-        }
-
-        private void cancel(){
-
-        }
-
-        private void onFinish() {
-            text.setText("Time's up!");
-            timeElapsedView.setText("Time remain: " + millisUntilFinished);
-        }
-
-        private void onTick() {
+        /**
+         * Callback fired on regular interval.
+         *
+         * @param millisUntilFinished The amount of time until finished.
+         */
+        @Override
+        public void onTick(long millisUntilFinished) {
             text.setText("Time remain: " + millisUntilFinished);
             timeElapsed = startTime - millisUntilFinished;
             timeElapsedView.setText(("Time Elapsed: " + String.valueOf(timeElapsed)));
         }
+
+        /**
+         * Callback fired when the time is up.
+         */
+        @Override
+        public void onFinish() {
+            text.setText("Time's up!");
+            timeElapsedView.setText("Time Elapsed: " + String.valueOf(startTime));
+        }
+
+
     }
 }
