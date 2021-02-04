@@ -44,13 +44,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(!timerHasStarted){
             countDownTimer.start();
             timerHasStarted = true;
-            String startString = this.getResources().getString(R.string.start);
+            String startString = getString(R.string.start);
             startB.setText(startString);
         }
         else{
             countDownTimer.cancel();
             timerHasStarted = false;
-            String resetString = this.getResources().getString(R.string.reset);
+            String resetString = getString(R.string.reset);
             startB.setText(resetString);
         }
     }
@@ -74,9 +74,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         @Override
         public void onTick(long millisUntilFinished) {
-            text.setText("Time remaining: " + String.valueOf(millisUntilFinished));
+            String remainStr = getString(R.string.timeRemain);
+            String elapseStr = getString(R.string.timeElapsed);
+            text.setText(remainStr + String.valueOf(millisUntilFinished));
             timeElapsed = startTime - millisUntilFinished;
-            timeElapsedView.setText("Time elapsed: " + String.valueOf(timeElapsed));
+            timeElapsedView.setText(elapseStr + String.valueOf(timeElapsed));
         }
 
         /**
@@ -84,8 +86,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          */
         @Override
         public void onFinish() {
+            String textStr = getString(R.string.timeElapsed);
             text.setText(R.string.timeOver);
-            timeElapsedView.setText("Time elapsed: " + String.valueOf(startTime));
+            timeElapsedView.setText(textStr + String.valueOf(startTime));
         }
 
 
